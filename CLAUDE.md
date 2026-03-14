@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This repository is now a monorepo for an AI video agent system.
+This repository is now a monorepo for Premiere Agent, an AI video agent system.
 
 ## Layout
 

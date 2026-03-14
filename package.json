@@ -1,8 +1,8 @@
 {
-  "name": "video-agent-workspace",
+  "name": "premiere-agent-workspace",
   "version": "0.1.0",
   "private": true,
-  "description": "Monorepo for an AI video agent that orchestrates research, beat analysis, and Premiere Pro editing.",
+  "description": "Monorepo for Premiere Agent, an AI video agent that orchestrates research, beat analysis, and Premiere Pro editing.",
   "license": "MIT",
   "repository": {
     "type": "git",

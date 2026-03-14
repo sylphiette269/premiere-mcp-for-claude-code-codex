@@ -2,7 +2,7 @@
 
 ## Delivery Shape
 
-- Root repo: `video-agent` monorepo
+- Root repo: `Premiere Agent` monorepo
 - Tool packages live in `packages/`
 - Agent orchestration lives in `agent/`, `cli/`, and `scenarios/`
 
