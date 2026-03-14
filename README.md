@@ -403,9 +403,12 @@ npm test
 - 已知限制见 [KNOWN_ISSUES.md](./KNOWN_ISSUES.md)
 - 项目 skills 说明见 [SKILLS.md](./SKILLS.md)
 
-## 说明
+## 致谢与说明
 
-本项目在部分 bridge 和 MCP 集成实现上参考了
+这个项目在早期梳理 bridge 和 MCP 接入链路时，参考过
 [`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP)
-中的一些思路与内容，也感谢原项目作者公开这部分工作，给了这个项目不少启发。
-当前仓库的整体工作流、项目结构和面向粗剪的能力组织，仍然是围绕本项目自身目标整理和实现的。
+中的部分思路与实现。
+
+很感谢原作者愿意把这部分工作公开出来。对我来说，这不只是一个可查看的仓库，更像是一份很有帮助的起点，让我在理解 Premiere 与 MCP 的连接方式时少走了一些弯路。
+
+在这些启发的基础上，我再结合自己的使用目标，把当前仓库逐步整理成现在这套更偏向视频粗剪协作的工作流，包括 Word 文档、参考视频、提示词、本地素材目录，以及面向 Claude Code / Codex 的使用方式。
