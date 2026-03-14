@@ -7,9 +7,7 @@ Short summary:
 `Premiere Agent` is a Windows-first monorepo for using `Claude Code` or
 `Codex` with MCP tools to drive Adobe Premiere Pro for rough-cut editing.
 
-It follows the same broad MCP plus CEP bridge direction as
-[`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP),
-but this repository is focused on Windows, rough-cut workflows, local material
+This repository is focused on Windows, rough-cut workflows, local material
 folders, Word briefs, reference videos, and prompt-driven planning.
 
 Primary use cases:

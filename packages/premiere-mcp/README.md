@@ -211,21 +211,12 @@ node --import tsx scripts/run-beat-sync-workflow.mjs --audio-input "/path/to/aud
 2. `reference video -> analyze_reference_video -> plan_replication_from_video -> assemble_product_spot(referenceBlueprintPath=...)`
 3. `natural language prompt -> parse_edit_request -> plan_edit_from_request -> assemble_product_spot(naturalLanguagePrompt=...)`
 
-## Acknowledgements / 说明
+## Attribution / 说明
 
-This project was independently developed for its initial feature set and workflow goals.
-During later debugging and integration work, parts of
-[`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP)
-were referenced to compare bridge behavior, MCP integration details, and recovery patterns.
-The current repository has since evolved with its own runtime structure, tool organization,
-CEP integration flow, and project-specific extensions.
+第三方运行时文件、参考来源和归因说明统一放在 [ATTRIBUTION.md](./ATTRIBUTION.md)。
 
-这个项目在前期功能实现和整体工作流目标上主要由我独立开发完成。
-在后期处理 bridge、集成和部分实现瓶颈时，我参考了
-[`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP)
-中的部分实现，用于对比桥接行为、MCP 集成细节和恢复流程。
-当前仓库已经结合自己的需求持续重构和扩展，形成了独立演进的运行时结构、工具组织方式、
-CEP 集成流程和项目内能力。
+这个包当前对外应当理解成 `Premiere Agent` monorepo 里的 Premiere 执行层，
+包含 MCP server、CEP 面板、bridge 协议、测试和项目内工作流扩展。
 
 ## 验证
 

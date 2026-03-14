@@ -1,6 +1,6 @@
 # Quick Start
 
-这个仓库参考了 `Adobe_Premiere_Pro_MCP` 的文档组织方式，但这里的步骤已经换成当前仓库真实可用的 Windows 流程。
+这里整理的是当前仓库真实可用的 Windows 快速开始流程。
 
 ## 适合谁
 

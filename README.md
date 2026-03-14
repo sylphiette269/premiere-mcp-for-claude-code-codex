@@ -11,12 +11,9 @@
 
 **让 `Claude Code` 或 `Codex` 通过 MCP 工具读取和操控 Adobe Premiere Pro，结合 Word 文档、参考视频、提示词和本地素材目录，辅助完成视频粗剪。**
 
-## 参考来源
+## 项目特点
 
-这个仓库在整体方向、桥接思路和 MCP 接入形态上，参考了
-[`Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP)。
-
-如果你看过那个项目，可以把当前仓库理解成它的一个继续演进版本，但目标更聚焦：
+这个仓库的设计重点很明确：
 
 - 目标环境改成了 **Windows-first**
 - 客户端重点改成了 **Claude Code / Codex**
@@ -172,7 +169,7 @@
 
 ## 按客户端接入
 
-这部分写法参考了 `Adobe_Premiere_Pro_MCP` 的 README 结构，但命令和路径已经换成了你当前仓库真实可用的版本。
+下面这些命令和路径都是当前仓库真实可用的版本。
 
 ### 1. 先准备本仓库
 

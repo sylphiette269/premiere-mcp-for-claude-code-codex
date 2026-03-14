@@ -1,6 +1,6 @@
 # Known Issues
 
-这个文件参考了 `Adobe_Premiere_Pro_MCP` 的 `KNOWN_ISSUES.md` 结构，但内容只写当前仓库已经确认的边界和限制。
+这个文件只写当前仓库已经确认的边界和限制。
 
 ## 当前定位
 
