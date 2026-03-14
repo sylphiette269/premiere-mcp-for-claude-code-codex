@@ -1,6 +1,6 @@
 ﻿# Premiere MCP for Premiere Pro + CEP
 
-`premiere-mcp` 现在是 `Premiere Agent` monorepo 里的 Premiere 执行包，包含 MCP server、CEP 面板、bridge 协议、测试和安装脚本，主要用于让 `Claude Code` 或 `Codex` 通过 MCP 工具操控 Premiere Pro 做视频粗剪。
+`premiere-mcp` 现在是 `Premiere AI Agent` monorepo 里的 Premiere 执行包，包含 MCP server、CEP 面板、bridge 协议、测试和安装脚本，主要用于让 `Claude Code` 或 `Codex` 通过 MCP 工具操控 Premiere Pro 做视频粗剪。
 
 > **English summary**: `premiere-mcp` is an MCP server that lets `Claude Code`, `Codex`, or other MCP-compatible clients drive Adobe Premiere Pro through a CEP bridge for rough-cut editing. It supports Word briefs, reference-video-driven planning, and prompt-driven workflows, but still requires manual review because keyframe, transition, and effect automation are not fully stable yet.
 >
@@ -215,7 +215,7 @@ node --import tsx scripts/run-beat-sync-workflow.mjs --audio-input "/path/to/aud
 
 第三方运行时文件、参考来源和归因说明统一放在 [ATTRIBUTION.md](./ATTRIBUTION.md)。
 
-这个包当前对外应当理解成 `Premiere Agent` monorepo 里的 Premiere 执行层，
+这个包当前对外应当理解成 `Premiere AI Agent` monorepo 里的 Premiere 执行层，
 包含 MCP server、CEP 面板、bridge 协议、测试和项目内工作流扩展。
 
 ## 验证

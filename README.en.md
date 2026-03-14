@@ -1,10 +1,10 @@
-# Premiere Agent
+# Premiere AI Agent
 
 Chinese-first repository documentation lives in [README.md](./README.md).
 
 Short summary:
 
-`Premiere Agent` is a Windows-first monorepo for using `Claude Code` or
+`Premiere AI Agent` is a Windows-first monorepo for using `Claude Code` or
 `Codex` with MCP tools to drive Adobe Premiere Pro for rough-cut editing.
 
 This repository is focused on Windows, rough-cut workflows, local material

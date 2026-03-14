@@ -73,7 +73,7 @@ packages/premiere-mcp/dist/index.js
 可以按类似下面的方式注册：
 
 ```bash
-codex mcp add premiere_pro --env PREMIERE_TEMP_DIR=C:/pr-mcp-cmd -- node D:/path/to/premiere-mcp-for-claude-code-codex/packages/premiere-mcp/dist/index.js
+codex mcp add premiere_pro --env PREMIERE_TEMP_DIR=C:/pr-mcp-cmd -- node D:/path/to/premiere-ai-agent/packages/premiere-mcp/dist/index.js
 ```
 
 ## 5. 接入 Claude Code
@@ -81,7 +81,7 @@ codex mcp add premiere_pro --env PREMIERE_TEMP_DIR=C:/pr-mcp-cmd -- node D:/path
 在 Claude Code 的 MCP 配置里，核心就是这两个值：
 
 ```text
-command: node D:/path/to/premiere-mcp-for-claude-code-codex/packages/premiere-mcp/dist/index.js
+command: node D:/path/to/premiere-ai-agent/packages/premiere-mcp/dist/index.js
 env: PREMIERE_TEMP_DIR=C:/pr-mcp-cmd
 ```
 

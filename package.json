@@ -1,5 +1,5 @@
 {
-  "name": "premiere-agent-workspace",
+  "name": "premiere-ai-agent-workspace",
   "version": "0.1.0",
   "private": true,
   "description": "MCP-driven Premiere Pro rough-cut agent for Claude Code or Codex using briefs, reference videos, prompts, and local material folders.",

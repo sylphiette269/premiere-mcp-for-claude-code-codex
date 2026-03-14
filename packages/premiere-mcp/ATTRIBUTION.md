@@ -1,6 +1,6 @@
 # Attribution
 
-This package is the Premiere execution layer inside the `premiere-mcp-for-claude-code-codex` monorepo.
+This package is the Premiere execution layer inside the `premiere-ai-agent` monorepo.
 
 ## Reference Project
 
