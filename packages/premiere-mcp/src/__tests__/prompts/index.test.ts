@@ -156,7 +156,7 @@ describe('PremiereProPrompts', () => {
     describe('operate_premiere_mcp', () => {
       it('should generate an agent-safe operating playbook', async () => {
         const result = await prompts.getPrompt('operate_premiere_mcp', {
-          objective: 'create a sequence, add transitions, and write keyframes',
+          objective: 'create a sequence, add transitions, and prepare manual motion guidance',
           sequence_name: 'Agent Demo',
           delivery_target: 'vertical reel',
         });
@@ -165,8 +165,10 @@ describe('PremiereProPrompts', () => {
         expect(result.messages.length).toBeGreaterThan(0);
         const assistantText = result.messages.find((message) => message.role === 'assistant')?.content.text ?? '';
         expect(assistantText).toContain('premiere://mcp/agent-guide');
+        expect(assistantText).toContain('Use this prompt as bootstrap');
         expect(assistantText).toContain('inspect_transition_boundary');
-        expect(assistantText).toContain('set_keyframe_interpolation');
+        expect(assistantText).toContain('manualKeyframePlan');
+        expect(assistantText).toContain('plan_keyframe_animation');
         expect(assistantText).toContain('Continuous Bezier');
       });
 

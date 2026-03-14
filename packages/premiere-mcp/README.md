@@ -34,7 +34,7 @@
 - 组合型工作流：`build_motion_graphics_demo`、`assemble_product_spot`、`build_brand_spot_from_mogrt_and_assets`
 - 审查与计划：`review_edit_reasonability`、`plan_edit_assembly`、`parse_edit_request`、`plan_edit_from_request`
 - 参考视频：`analyze_reference_video`、`plan_replication_from_video`、`compare_to_reference_video`
-- Agent 自描述：resource `premiere://mcp/agent-guide`、prompt `operate_premiere_mcp`
+- Agent 自描述：默认每个会话只读取一个 bootstrap 入口并缓存；优先使用 prompt `operate_premiere_mcp`，只有在需要完整静态规范或更深故障排查时才读取 resource `premiere://mcp/agent-guide`
 
 ## 工程规范
 

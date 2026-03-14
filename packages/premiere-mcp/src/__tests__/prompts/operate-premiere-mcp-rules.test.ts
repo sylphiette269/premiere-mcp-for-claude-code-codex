@@ -11,6 +11,8 @@ describe('operate_premiere_mcp prompt rules', () => {
 
     const combinedMessages = prompt.messages.map((message) => message.content.text).join('\n');
 
+    expect(combinedMessages).toContain('当前 prompt 当作 bootstrap');
+    expect(combinedMessages).toContain('会话内缓存');
     expect(combinedMessages).toContain('premiere://mcp/agent-guide');
     expect(combinedMessages).toContain('build_timeline_from_xml');
     expect(combinedMessages).toContain('critic_edit_result');

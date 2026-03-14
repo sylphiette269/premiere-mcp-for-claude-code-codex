@@ -12,11 +12,13 @@ describe('operate_premiere_mcp forced rules', () => {
     const forcedRulesMessage = result.messages.find(
       (message) =>
         message.role === 'user' &&
-        message.content.text.includes('premiere://mcp/agent-guide'),
+        message.content.text.includes('当前 prompt 当作 bootstrap'),
     );
     const combinedMessages = result.messages.map((message) => message.content.text).join('\n');
 
     expect(forcedRulesMessage).toBeDefined();
+    expect(combinedMessages).toContain('会话内缓存');
+    expect(combinedMessages).toContain('premiere://mcp/agent-guide');
     expect(combinedMessages).toContain('build_timeline_from_xml');
     expect(combinedMessages).toContain('critic_edit_result');
     expect(combinedMessages).toContain('successCriteria');

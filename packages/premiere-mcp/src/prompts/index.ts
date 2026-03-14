@@ -1,6 +1,10 @@
 import { basename } from 'node:path';
 
 import { Logger } from '../utils/logger.js';
+import {
+  type CatalogExposureOptions,
+  resolveCatalogExposure,
+} from '../catalog-profile.js';
 
 export interface MCPPrompt {
   name: string;
@@ -257,9 +261,9 @@ function buildAgentWorkflow(objective: string, sequenceName: string, deliveryTar
       {
         heading: 'Startup order',
         items: [
-          'Read the resource `premiere://mcp/agent-guide` before issuing write operations.',
+          'Use this prompt as bootstrap; read `premiere://mcp/agent-guide` only for full policy or deep troubleshooting, then cache it.',
           'Inspect the current state with `list_sequences`, `list_project_items`, and `list_sequence_tracks` before assuming where clips or sequences live.',
-          'Prefer exact low-level tools when the request already specifies clip IDs, times, transition names, or keyframe values.',
+          'Prefer exact low-level tools when the request already specifies clip IDs, times, transition names, or effect names.',
         ],
       },
       {
@@ -271,14 +275,15 @@ function buildAgentWorkflow(objective: string, sequenceName: string, deliveryTar
         ],
       },
       {
-        heading: 'Transitions and keyframes',
+        heading: 'Transitions and manual animation handoff',
         items: [
           'Before `add_transition`, call `inspect_transition_boundary`; before `batch_add_transitions`, call `inspect_track_transition_boundaries`.',
           'Prefer `safe_batch_add_transitions` when you want the server to inspect first and automatically skip gap or overlap boundaries.',
-          'Use `add_keyframe` for value writes and `set_keyframe_interpolation` for interpolation-only updates. `add_keyframe.time` is clip-relative seconds (0 = clip start), not absolute sequence time.',
-          'For slide or Motion.Position work, prefer `apply_keyframe_animation` or `apply_animation_preset` with a real `clipId`; the server can resolve the target clip sequence frame size before converting pixel coordinates.',
-          'For still image motion on Motion.Position, Motion.Scale, Motion.Rotation, or Motion.Anchor Point, expect high-level animation tools like `apply_keyframe_animation` and `apply_animation_preset` to prefer a Transform effect fallback. Low-level `add_keyframe` stays on the component you requested, so verify which component actually received the keys.',
-          'If a still image move remains unstable or must match a tutorial UI exactly, Nest the clip first and animate the Transform effect inside the nested shot instead of forcing intrinsic Motion.',
+          'Treat high-level animation requests as planning-only. `apply_keyframe_animation` and `apply_animation_preset` now return `manualKeyframePlan` guidance instead of delivery-ready keyframe writes.',
+          'Use `plan_keyframe_animation` or a preset tool with a real `clipId` when you need clip-relative timing, frame-size resolution, and a human-readable handoff for the editor.',
+          'Keep low-level `add_keyframe` and `set_keyframe_interpolation` for narrow diagnostics only. Do not promise automated motion delivery from them in the current workflow.',
+          'For still image motion on Motion.Position, Motion.Scale, Motion.Rotation, or Motion.Anchor Point, expect Transform-oriented manual guidance rather than a completed write.',
+          'If a still image move must match the Premiere UI exactly, Nest the clip first and animate the Transform effect manually inside the nested shot.',
           'If the project contains many still images, consider Render and Replace or pre-rendering those stills to short mezzanine video clips before bulk automation.',
           'If the request says `Continuous Bezier`, state explicitly that the current host path falls back to host `bezier` mode and does not expose separate handle editing.',
         ],
@@ -292,15 +297,64 @@ function buildAgentWorkflow(objective: string, sequenceName: string, deliveryTar
         ],
       },
     ],
-    'Use this playbook in structured agent clients so the MCP is driven through explicit, verifiable steps.',
+    'Use this playbook for both Claude Code and Codex sessions so the MCP is driven through explicit, verifiable steps.',
   );
+}
+
+function buildCompactAgentWorkflow(objective: string, sequenceName: string, deliveryTarget: string): GeneratedPrompt {
+  return {
+    description: `Compact playbook for ${objective}`,
+    messages: [
+      text(
+        'system',
+        'Operate this Premiere MCP conservatively. Inspect first, verify writes, and report host limits explicitly.',
+      ),
+      text(
+        'user',
+        `I need to ${objective}. Sequence: ${sequenceName}. Delivery: ${deliveryTarget}. Give me a compact workflow.`,
+      ),
+      text(
+        'assistant',
+        buildAssistantMessage(
+          `Objective: ${objective}. Sequence: ${sequenceName}. Delivery: ${deliveryTarget}.`,
+          [
+            {
+              heading: 'Start',
+              items: [
+                'Use this prompt as bootstrap. Read `premiere://project/info`, `list_sequences`, and `list_sequence_tracks` before writes. Need `premiere://mcp/agent-guide`? Read once.',
+                'Prefer planning and review tools before bulk assembly, and use exact IDs and paths instead of name guesses.',
+              ],
+            },
+            {
+              heading: 'Flow',
+              items: [
+                'Natural-language task: `parse_edit_request` -> `plan_edit_from_request` -> `review_edit_reasonability` -> assembly tool.',
+                'DOCX or manifest task: `plan_edit_assembly` -> `review_edit_reasonability` -> `assemble_product_spot`.',
+                'Reference or viral-style task: analyze or blueprint first, then `assemble_product_spot_closed_loop` and finish with `critic_edit_result`.',
+                'Motion requests: use `parse_keyframe_request` or `plan_keyframe_animation`; high-level animation is manual handoff, not delivery-ready keyframe writes.',
+              ],
+            },
+            {
+              heading: 'Stop',
+              items: [
+                'Stop on `blocked`, `verification.confirmed=false`, `TOOL_DISABLED`, or repeated failures on the same step.',
+                'After writes, verify with `get_keyframes` or `list_sequence_tracks`.',
+                'If still-image motion is unstable, return Transform or Nest guidance instead of retrying intrinsic Motion writes.',
+              ],
+            },
+          ],
+          'Prefer `video-research-mcp` over web search.',
+        ),
+      ),
+    ],
+  };
 }
 
 function createPromptCatalog(): PromptDefinition[] {
   return [
     {
       name: 'operate_premiere_mcp',
-      description: 'Guide an agent through safe, verifiable use of this Premiere MCP server for sequence, transition, and keyframe work.',
+      description: 'Guide an agent through safe, verifiable use of this Premiere MCP server for sequence, transition, and manual animation handoff work.',
       arguments: PROMPT_ARGUMENTS.operatePremiereMcp,
       build: (args) => {
         const objective = pickText(args, ['objective'], 'complete a Premiere edit task');
@@ -318,7 +372,7 @@ function createPromptCatalog(): PromptDefinition[] {
               [
                 '=== 强制执行规则（每次任务开始前必读）===',
                 '',
-                '1. 首先读取 premiere://mcp/agent-guide 获取完整操作规范',
+                '1. 默认把当前 prompt 当作 bootstrap；只有在需要完整静态规范或更深故障排查时才读取 premiere://mcp/agent-guide，并在会话内缓存',
                 '2. 读取 premiere://project/info 了解当前项目状态',
                 '3. 识别任务场景类型 (natural_language / docx_guided / reference_video / viral_style)',
                 '',
@@ -828,9 +882,11 @@ const PROMPT_LOOKUP = new Map(PROMPT_CATALOG.map((definition) => [definition.nam
 
 export class PremiereProPrompts {
   private readonly logger: Logger;
+  private readonly catalogExposure: CatalogExposureOptions;
 
-  constructor() {
+  constructor(catalogExposure: CatalogExposureOptions = resolveCatalogExposure()) {
     this.logger = new Logger('PremiereProPrompts');
+    this.catalogExposure = catalogExposure;
   }
 
   getAvailablePrompts(): MCPPrompt[] {
@@ -846,6 +902,13 @@ export class PremiereProPrompts {
 
     if (!definition) {
       throw new Error(`Prompt '${name}' not found`);
+    }
+
+    if (name === 'operate_premiere_mcp' && this.catalogExposure.compactAgentGuide) {
+      const objective = pickText(args, ['objective'], 'complete a Premiere edit task');
+      const sequenceName = pickText(args, ['sequence_name'], 'active sequence or resolved target sequence');
+      const deliveryTarget = pickText(args, ['delivery_target'], 'current project delivery target');
+      return buildCompactAgentWorkflow(objective, sequenceName, deliveryTarget);
     }
 
     return definition.build(args ?? {});

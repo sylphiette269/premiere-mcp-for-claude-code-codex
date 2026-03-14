@@ -127,6 +127,26 @@ describe('PremiereProResources', () => {
         expect(keyframeRules).toContain('Render and Replace');
         expect(limitations).toContain('still-image');
       });
+
+      it('returns a compact guide when compact mode is enabled', async () => {
+        const compactResources = new PremiereProResources(mockBridge, {
+          profile: 'full',
+          schemaDetail: 'compact',
+          compactAgentGuide: true,
+        });
+
+        const result = await compactResources.readResource('premiere://mcp/agent-guide') as {
+          server?: { profile?: string };
+          startup?: string[];
+          keyframes?: { recommended?: string[] };
+          agentWorkflowV2?: unknown;
+        };
+
+        expect(result.server?.profile).toBe('compact');
+        expect(result.startup?.length).toBeGreaterThan(0);
+        expect(result.keyframes?.recommended).toContain('plan_keyframe_animation');
+        expect(result.agentWorkflowV2).toBeUndefined();
+      });
     });
 
     describe('premiere://project/sequences', () => {

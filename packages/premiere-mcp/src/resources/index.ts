@@ -1,5 +1,9 @@
 import { PremiereBridge } from '../bridge/index.js';
 import { Logger } from '../utils/logger.js';
+import {
+  type CatalogExposureOptions,
+  resolveCatalogExposure,
+} from '../catalog-profile.js';
 
 export interface MCPResource {
   uri: string;
@@ -12,6 +16,8 @@ interface ResourceDefinition extends MCPResource {
   script?: () => string;
   read?: () => unknown | Promise<unknown>;
 }
+
+const AGENT_GUIDE_URI = 'premiere://mcp/agent-guide';
 
 function script(lines: string[]): string {
   return lines.join('\n');
@@ -701,6 +707,62 @@ function agentGuideResource(): Record<string, unknown> {
   };
 }
 
+function compactAgentGuideResource(): Record<string, unknown> {
+  return {
+    server: {
+      product: 'premiere-mcp',
+      profile: 'compact',
+    },
+    startup: [
+      'Inspect project and sequence state before writes.',
+      'Plan or review before bulk assembly.',
+      'Verify writes with read-back tools.',
+    ],
+    discovery: [
+      'premiere://project/info',
+      'list_sequences',
+      'list_sequence_tracks',
+      'list_project_items',
+    ],
+    safeEditing: [
+      'inspect_transition_boundary',
+      'inspect_track_transition_boundaries',
+      'safe_batch_add_transitions',
+      'review_edit_reasonability',
+      'critic_edit_result',
+    ],
+    keyframes: {
+      recommended: [
+        'parse_keyframe_request',
+        'plan_keyframe_animation',
+        'apply_keyframe_animation',
+        'get_keyframes',
+      ],
+      limitations: [
+        'High-level animation returns manualKeyframePlan.',
+        'continuous_bezier falls back to host bezier.',
+        'Still images may require Transform or Nest.',
+      ],
+    },
+    highLevelAssembly: [
+      'plan_edit_assembly',
+      'plan_edit_from_request',
+      'assemble_product_spot',
+      'assemble_product_spot_closed_loop',
+    ],
+    stopConditions: [
+      'blocked review',
+      'verification.confirmed=false on critical writes',
+      'TOOL_DISABLED',
+      'repeated failure on the same step',
+    ],
+    externalResearch: [
+      'Prefer video-research-mcp over web search.',
+      'Use editingBlueprintPath or researchTaskDir before viral-style assembly.',
+    ],
+  };
+}
+
 function createResourceCatalog(): ResourceDefinition[] {
   return [
     { uri: 'premiere://project/info', name: 'Current Project Information', description: 'Information about the currently open Premiere Pro project', mimeType: 'application/json', script: projectInfoScript },
@@ -725,10 +787,15 @@ const RESOURCE_LOOKUP = new Map(RESOURCE_CATALOG.map((definition) => [definition
 export class PremiereProResources {
   private readonly bridge: PremiereBridge;
   private readonly logger: Logger;
+  private readonly catalogExposure: CatalogExposureOptions;
 
-  constructor(bridge: PremiereBridge) {
+  constructor(
+    bridge: PremiereBridge,
+    catalogExposure: CatalogExposureOptions = resolveCatalogExposure(),
+  ) {
     this.bridge = bridge;
     this.logger = new Logger('PremiereProResources');
+    this.catalogExposure = catalogExposure;
   }
 
   getAvailableResources(): MCPResource[] {
@@ -741,6 +808,10 @@ export class PremiereProResources {
     if (!definition) {
       const available = RESOURCE_CATALOG.map((resource) => resource.uri).join(', ');
       throw new Error(`Resource '${uri}' not found. Available resources: ${available}`);
+    }
+
+    if (uri === AGENT_GUIDE_URI && this.catalogExposure.compactAgentGuide) {
+      return compactAgentGuideResource();
     }
 
     if (definition.read) {
