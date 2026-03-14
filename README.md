@@ -39,6 +39,11 @@
 - 适合做粗剪、初版装配、节奏规划、素材筛选
 - 不适合直接承诺无人值守最终成片
 
+相关入口：
+
+- 快速开始见 [QUICKSTART.md](./QUICKSTART.md)
+- 已知限制见 [KNOWN_ISSUES.md](./KNOWN_ISSUES.md)
+
 ## 你能用它做什么
 
 - 根据 Word 文档里的剪辑需求和剪辑说明，辅助完成 Premiere 粗剪
@@ -369,3 +374,5 @@ npm test
 
 - 贡献说明见 [CONTRIBUTING.md](./CONTRIBUTING.md)
 - 安全问题见 [SECURITY.md](./SECURITY.md)
+- 快速开始见 [QUICKSTART.md](./QUICKSTART.md)
+- 已知限制见 [KNOWN_ISSUES.md](./KNOWN_ISSUES.md)

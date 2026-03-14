@@ -26,3 +26,8 @@ Important:
 - keyframe adjustment, transitions, and effects are not fully stable yet
 
 For full details, use the Chinese README at [README.md](./README.md).
+
+Additional docs:
+
+- Quick start: [QUICKSTART.md](./QUICKSTART.md)
+- Known issues: [KNOWN_ISSUES.md](./KNOWN_ISSUES.md)
