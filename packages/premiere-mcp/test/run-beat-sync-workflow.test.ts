@@ -4,6 +4,9 @@ import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+
+const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function runNodeScript(
   args: string[],
@@ -81,7 +84,7 @@ test('run-beat-sync-workflow CLI performs dry-run analysis and planning', async 
       'sequential',
       '--dry-run',
     ],
-    path.resolve('e:/作业1/premiere-mcp'),
+    PACKAGE_ROOT,
     {
       ...process.env,
       PREMIERE_AUDIO_PYTHON: process.execPath,
@@ -103,7 +106,7 @@ test('run-beat-sync-workflow CLI performs dry-run analysis and planning', async 
 test('run-beat-sync-workflow CLI fails on missing required arguments', async () => {
   const result = await runNodeScript(
     ['--import', 'tsx', 'scripts/run-beat-sync-workflow.mjs', '--clips-json', 'missing.json'],
-    path.resolve('e:/作业1/premiere-mcp'),
+    PACKAGE_ROOT,
   );
 
   assert.equal(result.exitCode, 1);

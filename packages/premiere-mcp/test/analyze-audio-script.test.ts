@@ -4,6 +4,9 @@ import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+
+const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function runNodeScript(
   args: string[],
@@ -70,7 +73,7 @@ test('analyze-audio-track CLI writes analysis JSON through the Node wrapper', as
       '--energy-threshold',
       '0.8',
     ],
-    path.resolve('e:/作业1/premiere-mcp'),
+    PACKAGE_ROOT,
     {
       ...process.env,
       PREMIERE_AUDIO_PYTHON: process.execPath,

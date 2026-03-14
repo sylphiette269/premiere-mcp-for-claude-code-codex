@@ -4,8 +4,11 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 import JSZip from "jszip";
+
+const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 function runNodeScript(args: string[], cwd: string): Promise<{
   stdout: string;
@@ -111,7 +114,7 @@ test("plan-edit-assembly CLI writes a markdown plan from DOCX and manifest input
       "--output",
       outputPath,
     ],
-    path.resolve("e:/作业1/premiere-mcp"),
+    PACKAGE_ROOT,
   );
 
   assert.equal(result.exitCode, 0, result.stderr);

@@ -4,6 +4,9 @@ import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+
+const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function runNodeScript(
   args: string[],
@@ -77,7 +80,7 @@ test('plan-beat-sync CLI writes a beat placement plan from analysis and clip lis
       '--mode',
       'sequential',
     ],
-    path.resolve('e:/作业1/premiere-mcp'),
+    PACKAGE_ROOT,
   );
 
   assert.equal(result.exitCode, 0, result.stderr);
