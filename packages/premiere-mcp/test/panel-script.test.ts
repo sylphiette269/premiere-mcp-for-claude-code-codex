@@ -176,8 +176,8 @@ test("quoteJsString escapes non-ASCII characters for ExtendScript source", async
   const panel = await loadPanelHelpers();
 
   assert.equal(
-    panel.quoteJsString("E:/作业1/sample1.jpg"),
-    '"E:/\\u4f5c\\u4e1a1/sample1.jpg"',
+    panel.quoteJsString("C:/示例项目/sample1.jpg"),
+    '"C:/\\u793a\\u4f8b\\u9879\\u76ee/sample1.jpg"',
   );
 });
 
@@ -613,7 +613,7 @@ test("poll prefers the bridge filesystem over evalScript when bridgeFs is availa
             JSON.stringify({
               ok: true,
               projectName: "Demo.prproj",
-              projectPath: "E:/作业1/Demo.prproj",
+              projectPath: "C:/example-project/Demo.prproj",
               activeSequence: null,
               itemCount: 0,
               id: "demo-id",
@@ -639,7 +639,7 @@ test("poll prefers the bridge filesystem over evalScript when bridgeFs is availa
   assert.deepEqual(JSON.parse(fileContext.files.get("C:/pr-mcp-cmd/result.json") ?? "{}"), {
     ok: true,
     projectName: "Demo.prproj",
-    projectPath: "E:/作业1/Demo.prproj",
+    projectPath: "C:/example-project/Demo.prproj",
     activeSequence: null,
     itemCount: 0,
     id: "demo-id",
@@ -702,7 +702,7 @@ test("buildActionScript get_project_info returns project path and item count", a
     app: {
       project: {
         name: "Demo.prproj",
-        path: "E:/作业1/Demo.prproj",
+        path: "C:/example-project/Demo.prproj",
         activeSequence: {
           name: "Main",
           videoTracks: { numTracks: 1 },
@@ -728,7 +728,7 @@ test("buildActionScript get_project_info returns project path and item count", a
   assert.deepEqual(JSON.parse(result), {
     ok: true,
     projectName: "Demo.prproj",
-    projectPath: "E:/作业1/Demo.prproj",
+    projectPath: "C:/example-project/Demo.prproj",
     activeSequence: {
       name: "Main",
       videoTracks: 1,
@@ -1451,11 +1451,11 @@ test("buildActionScript import_media encodes non-ASCII paths safely in the gener
     id: "import-id",
     action: "import_media",
     params: {
-      paths: ["E:/作业1/sample1.jpg"],
+      paths: ["C:/示例项目/sample1.jpg"],
     },
   });
 
-  assert.equal(script.includes("\\u4f5c\\u4e1a1"), true);
+  assert.equal(script.includes("\\u793a\\u4f8b\\u9879\\u76ee"), true);
 });
 
 test("buildActionScript import_media returns a structured error when importFiles throws", async () => {
@@ -1614,7 +1614,7 @@ test("buildActionScript add_clip_to_timeline matches imported media paths after 
     id: "clip-id",
     action: "add_clip_to_timeline",
     params: {
-      mediaPath: "E:/作业1/sample1.jpg",
+      mediaPath: "C:/示例项目/sample1.jpg",
       trackIndex: 0,
       startTime: 0,
     },
@@ -1669,7 +1669,7 @@ test("buildActionScript add_clip_to_timeline matches imported media paths after 
             0: {
               type: 1,
               getMediaPath() {
-                return "E:\\作业1\\sample1.jpg";
+                return "C:\\示例项目\\sample1.jpg";
               },
             },
           },

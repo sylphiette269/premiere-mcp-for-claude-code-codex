@@ -163,7 +163,7 @@ test("premiere_add_clip_to_timeline maps media placement parameters", async () =
   const result = await executePremiereTool(
     "premiere_add_clip_to_timeline",
     {
-      mediaPath: "E:/作业1/sample1.jpg",
+      mediaPath: "C:/example-project/sample1.jpg",
       trackIndex: 1,
       startTime: 12.5,
     },
@@ -179,7 +179,7 @@ test("premiere_add_clip_to_timeline maps media placement parameters", async () =
     {
       action: "add_clip_to_timeline",
       params: {
-        mediaPath: "E:/作业1/sample1.jpg",
+        mediaPath: "C:/example-project/sample1.jpg",
         trackIndex: 1,
         startTime: 12.5,
       },
@@ -203,11 +203,11 @@ test("premiere_export_sequence maps the output path", async () => {
 
   const result = await executePremiereTool(
     "premiere_export_sequence",
-    { outputPath: "E:/作业1/output.mp4" },
+    { outputPath: "C:/example-project/output.mp4" },
     {
       sendCommand: async (action, params) => {
         calls.push({ action, params });
-        return { id: "5", ok: true, outputPath: "E:/作业1/output.mp4" };
+        return { id: "5", ok: true, outputPath: "C:/example-project/output.mp4" };
       },
     },
   );
@@ -215,13 +215,13 @@ test("premiere_export_sequence maps the output path", async () => {
   assert.deepEqual(calls, [
     {
       action: "export_sequence",
-      params: { outputPath: "E:/作业1/output.mp4" },
+      params: { outputPath: "C:/example-project/output.mp4" },
     },
   ]);
   assert.deepEqual(result, {
     id: "5",
     ok: true,
-    outputPath: "E:/作业1/output.mp4",
+    outputPath: "C:/example-project/output.mp4",
   });
 });
 

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 
-test("index.html prefers Chinese interface copy and includes a subtle signature", async () => {
+test("index.html prefers Chinese interface copy and keeps public-facing branding generic", async () => {
   const html = await readFile(
     path.join(process.cwd(), "cep-panel", "index.html"),
     "utf8",
@@ -13,7 +13,8 @@ test("index.html prefers Chinese interface copy and includes a subtle signature"
   assert.match(html, /命令桥接 \/ 编辑运行时/);
   assert.match(html, /实时队列/);
   assert.match(html, /桥接输出/);
-  assert.match(html, /sylphiette269/);
+  assert.match(html, /premiere-ai-agent CEP 面板/);
+  assert.doesNotMatch(html, /sylphiette269/);
 });
 
 test("panel runtime source localizes visible status text to Chinese", async () => {
