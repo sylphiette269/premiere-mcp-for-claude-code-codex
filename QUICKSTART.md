@@ -132,7 +132,7 @@ env: PREMIERE_TEMP_DIR=C:/pr-mcp-cmd
 6. 再调用 Premiere MCP 执行
 7. 人工复核结果，再继续精修
 
-## 常用命令
+## 主要命令
 
 根仓：
 
@@ -152,7 +152,7 @@ npm run plan:edit -- --docx "D:/brief/需求.docx" --media-json "docs/media.json
 npm run review:edit -- --docx "D:/brief/需求.docx" --media-json "docs/media.json" --output "docs/review.md"
 ```
 
-## 当前边界
+## 执行边界与人工复核
 
 - 这个仓库的目标是粗剪、初版装配和流程编排，不是直接承诺无人值守成片
 - 最终精剪还是需要人工复核
